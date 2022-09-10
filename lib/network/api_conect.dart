@@ -14,7 +14,7 @@ class Con {
       print(response.body);
       return Names.fromjson(jsonDecode(response.body));
     } else {
-      throw Exception(' Failed to  get info  !!!');
+      throw Exception(' Failed to  get information  !!!');
     }
   }
 }
