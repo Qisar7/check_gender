@@ -1,8 +1,8 @@
 class Names {
-  late String name;
-  late String gender;
-  late double probability;
-  late int count;
+  String? name;
+  String? gender;
+  double? probability;
+  int? count;
 
   Names({
     required this.name,

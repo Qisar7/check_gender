@@ -22,7 +22,9 @@ class Con {
     var res = await http.get(Uri.parse('https://api.genderize.io/?name=$name'));
 
     if (res.statusCode == 200) {
-      return jsonDecode(res.body);
+      var data = jsonDecode(res.body);
+      // Names names = Names.fromjson(data);
+      return data;
     } else {
       throw Exception('---------- field');
     }

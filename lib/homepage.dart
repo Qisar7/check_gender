@@ -16,6 +16,7 @@ class _HomepageState extends State<Homepage> {
   Con con = Con();
 
   var _namecontrller = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -46,7 +47,7 @@ class _HomepageState extends State<Homepage> {
         child: Center(
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 30),
@@ -58,6 +59,44 @@ class _HomepageState extends State<Homepage> {
                   ),
                 ),
                 const SizedBox(height: 20),
+
+                const SizedBox(height: 20),
+                FutureBuilder(
+                  future: con.getdataa(name: _namecontrller.text),
+                  builder: (cntx, AsyncSnapshot snapshot) {
+                    var data = snapshot.data;
+
+                    return snapshot.hasData
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Dataw(
+                                title: 'name :',
+                                desc: data!['name'],
+                              ),
+                              const SizedBox(height: 10),
+                              Dataw(
+                                title: 'gender :',
+                                desc: data!['gender'],
+                              ),
+                              const SizedBox(height: 10),
+                              Dataw(
+                                title: 'probability :',
+                                desc: data!['probability'].toString(),
+                              ),
+                              const SizedBox(height: 10),
+                              Dataw(
+                                title: 'count :',
+                                desc: data!['count'].toString(),
+                              ),
+                            ],
+                          )
+                        : const CircularProgressIndicator();
+                  },
+                ),
+                SizedBox(
+                  height: 50,
+                ),
                 Container(
                   width: double.infinity,
                   height: 70,
@@ -81,42 +120,6 @@ class _HomepageState extends State<Homepage> {
                           style: TextStyle(fontSize: 20, color: Colors.white),
                         ),
                       )),
-                ),
-                const SizedBox(height: 20),
-                FutureBuilder(
-                  future: con.getdataa(name: _namecontrller.text),
-                  builder: (cntx, AsyncSnapshot snapshot) {
-                    var data = snapshot.data;
-
-                    return snapshot.hasData
-                        ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Dataw(
-                                title: 'name :',
-                                desc: data['name'].toString().toUpperCase(),
-                              ),
-                              const SizedBox(height: 10),
-                              Dataw(
-                                title: 'gender :',
-                                desc: data['gender'].toString().toUpperCase(),
-                              ),
-                              const SizedBox(height: 10),
-                              Dataw(
-                                title: 'probability :',
-                                desc: data['probability']
-                                    .toString()
-                                    .toUpperCase(),
-                              ),
-                              const SizedBox(height: 10),
-                              Dataw(
-                                title: 'count :',
-                                desc: data['count'].toString().toUpperCase(),
-                              ),
-                            ],
-                          )
-                        : const CircularProgressIndicator();
-                  },
                 ),
                 // Column(
                 //   children: [
@@ -144,8 +147,8 @@ class _HomepageState extends State<Homepage> {
 }
 
 class Dataw extends StatelessWidget {
-  late String title;
-  late String desc;
+  String? title;
+  String? desc;
 
   Dataw({required this.title, required this.desc});
 
@@ -158,17 +161,20 @@ class Dataw extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            title.toString(),
+            title.toString().toUpperCase(),
             style: const TextStyle(
               color: Color.fromARGB(255, 6, 171, 154),
               fontSize: 25,
             ),
           ),
-          Text(
-            desc.toString(),
-            style: const TextStyle(
-              color: Color.fromARGB(255, 248, 5, 5),
-              fontSize: 20,
+          Flexible(
+            child: Text(
+              desc.toString().toUpperCase(),
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Color.fromARGB(255, 248, 5, 5),
+                fontSize: 20,
+              ),
             ),
           ),
         ],
