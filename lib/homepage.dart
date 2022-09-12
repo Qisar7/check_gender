@@ -16,9 +16,11 @@ class _HomepageState extends State<Homepage> {
   Con con = Con();
 
   var _namecontrller = TextEditingController();
-
-  late Future<Names> _futurename;
-
+  @override
+  void initState() {
+    super.initState();
+    con.getdataa(name: _namecontrller.text);
+  }
   // void getdata(String title) async {
   //   final resonse = await http.post(
   //     Uri.parse('https://jsonplaceholder.typicode.com/posts'),
@@ -32,21 +34,11 @@ class _HomepageState extends State<Homepage> {
   //   print(jsonDecode(resonse.body));
   // }
 
-  Future getdataa({required String name}) async {
-    var res = await http.get(Uri.parse('https://api.genderize.io/?name=$name'));
-
-    if (res.statusCode == 200) {
-      return jsonDecode(res.body);
-    } else {
-      throw Exception('---------- field');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MALE    OR    FEMALE'),
+        title: const Text('CHECK GENDER'),
         centerTitle: true,
       ),
       body: Padding(
@@ -75,7 +67,7 @@ class _HomepageState extends State<Homepage> {
                   child: OutlinedButton(
                       onPressed: () {
                         setState(() {
-                          getdataa(name: _namecontrller.text);
+                          con.getdataa(name: _namecontrller.text);
                         });
                       },
                       style: OutlinedButton.styleFrom(
@@ -85,14 +77,14 @@ class _HomepageState extends State<Homepage> {
                       child: const Padding(
                         padding: EdgeInsets.all(20.0),
                         child: Text(
-                          ' get text ',
+                          ' Search ! ',
                           style: TextStyle(fontSize: 20, color: Colors.white),
                         ),
                       )),
                 ),
                 const SizedBox(height: 20),
                 FutureBuilder(
-                  future: getdataa(name: _namecontrller.text),
+                  future: con.getdataa(name: _namecontrller.text),
                   builder: (cntx, AsyncSnapshot snapshot) {
                     var data = snapshot.data;
 
